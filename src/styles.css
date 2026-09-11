@@ -221,3 +221,7 @@ button { cursor: pointer; }
   .bc-dashboard-header h1 { font-size: 34px; }
   .bc-metric-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+.bc-admin-create-account { margin-top: 12px; width: 100%; }
+.bc-admin-switch { background: transparent; border: 0; color: var(--bc-green); display: block; font-size: 12px; font-weight: 750; margin: 14px auto 0; padding: 0; }
+.bc-admin-switch:hover { color: var(--bc-green-dark); text-decoration: underline; }
