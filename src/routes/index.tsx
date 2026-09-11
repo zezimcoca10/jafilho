@@ -180,25 +180,66 @@ function BusinessControlLanding() {
         </div>
         <div className="bc-about-copy">
           <div className="bc-kicker">Quem está por trás da Business Control</div>
-          <h2>Experiência prática para transformar controle em clareza.</h2>
-          <p>
-            José Augusto Gonçalves Filho nasceu em 1991 e iniciou sua trajetória profissional em 2013, como técnico de informática. Em 2014, começou sua experiência na contabilidade como estagiário, formando-se em Contabilidade pela Faculdade de Anicuns (FEA) em 2017. Exerceu a profissão contábil até o fim de 2020.
+          <h2>Uma trajetória construída entre tecnologia, gestão e visão de negócio.</h2>
+          <p className="bc-about-intro">
+            A história de José Augusto Gonçalves Filho reúne experiências diferentes, mas conectadas por um mesmo propósito: entender como as organizações funcionam e transformar essa compreensão em decisões mais claras.
           </p>
-          <p>
-            Entre 2021 e agosto de 2023, atuou como secretário municipal de Finanças. De agosto de 2023 até o início de janeiro de 2024, trabalhou no setor bancário, especificamente na Cooperativa Sicoob Centro-Oeste BR. Em cada etapa, pediu seu desligamento para seguir novos caminhos profissionais.
-          </p>
-          <p>
-            Desde o período em que deixou a contabilidade, José já estudava a construção de sistemas para pequenas e médias empresas. Desde 2024, atua no desenvolvimento de soluções que facilitam a tomada de decisão, com foco em controle financeiro, compras, área fiscal e operação.
-          </p>
-          <p>
-            Seu compromisso é compreender a realidade de cada empresa e transformar processos complexos em ferramentas simples, ágeis e fáceis de usar. A Business Control nasce para ajudar empresários a sair do improviso, organizar sua gestão e tomar decisões com mais segurança.
-          </p>
+          <div className="bc-about-timeline">
+            <article className="bc-about-timeline-item">
+              <div className="bc-about-timeline-year">1991</div>
+              <div>
+                <h3>As raízes de uma visão prática</h3>
+                <p>José Augusto nasceu em 1991. Desde cedo, desenvolveu uma postura de aprendizado contínuo e atenção aos detalhes que mais tarde se tornaria essencial para compreender os desafios reais de uma empresa.</p>
+              </div>
+            </article>
+            <article className="bc-about-timeline-item">
+              <div className="bc-about-timeline-year">2013</div>
+              <div>
+                <h3>O início pela tecnologia</h3>
+                <p>Começou sua trajetória profissional como técnico de informática. Foi o primeiro contato direto com tecnologia, atendimento e resolução de problemas — uma base que permanece presente na forma como pensa soluções até hoje.</p>
+              </div>
+            </article>
+            <article className="bc-about-timeline-item">
+              <div className="bc-about-timeline-year">2014–2020</div>
+              <div>
+                <h3>Contabilidade na prática</h3>
+                <p>Em 2014, ingressou na contabilidade como estagiário. Formou-se em Contabilidade pela Faculdade de Anicuns (FEA) em 2017 e exerceu a profissão até o fim de 2020. Essa etapa trouxe uma visão concreta sobre controles, responsabilidades e os impactos que uma informação bem organizada tem na gestão.</p>
+              </div>
+            </article>
+            <article className="bc-about-timeline-item">
+              <div className="bc-about-timeline-year">2021–ago. 2023</div>
+              <div>
+                <h3>Gestão pública e responsabilidade financeira</h3>
+                <p>Atuou como secretário municipal de Finanças. A experiência ampliou sua compreensão sobre planejamento, organização, responsabilidade e tomada de decisão em ambientes que exigem clareza e controle.</p>
+              </div>
+            </article>
+            <article className="bc-about-timeline-item">
+              <div className="bc-about-timeline-year">ago. 2023–jan. 2024</div>
+              <div>
+                <h3>Uma nova perspectiva no setor financeiro</h3>
+                <p>Trabalhou na Cooperativa Sicoob Centro-Oeste BR, aprofundando sua vivência no setor bancário e financeiro. Ao encerrar esse ciclo por decisão própria, levou consigo uma visão ainda mais ampla sobre processos, pessoas e necessidades de gestão.</p>
+              </div>
+            </article>
+            <article className="bc-about-timeline-item">
+              <div className="bc-about-timeline-year">Desde 2024</div>
+              <div>
+                <h3>Sistemas para decisões melhores</h3>
+                <p>Depois de anos estudando a construção de sistemas para pequenas e médias empresas, passou a atuar diretamente no desenvolvimento de soluções sob medida. Seu foco é facilitar decisões em áreas como controle financeiro, compras, fiscal e operação.</p>
+              </div>
+            </article>
+          </div>
+          <div className="bc-about-commitment">
+            <strong>O compromisso da Business Control</strong>
+            <p>Ouvir cada empresário, entender sua realidade e transformar processos complexos em ferramentas simples, ágeis e fáceis de usar — para que a gestão deixe de depender do improviso e passe a apoiar o crescimento.</p>
+          </div>
           <div className="bc-about-highlights">
             <span><strong>Desde 2013</strong> em tecnologia</span>
-            <span><strong>Formação em 2017</strong> em Contabilidade</span>
-            <span><strong>Experiência real</strong> em gestão e controle</span>
+            <span><strong>2014–2020</strong> experiência contábil</span>
+            <span><strong>Desde 2024</strong> sistemas sob medida</span>
           </div>
         </div>
+      </section>
+
       </section>
 
       <footer className="bc-footer">
