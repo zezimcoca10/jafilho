@@ -182,13 +182,16 @@ function BusinessControlLanding() {
           <div className="bc-kicker">Quem está por trás da Business Control</div>
           <h2>Experiência prática para transformar controle em clareza.</h2>
           <p>
-            José Augusto Gonçalves Filho nasceu em 1991 e iniciou sua trajetória profissional em 2013, como técnico de informática. Em 2017, concluiu sua formação em Contabilidade pela Faculdade de Anicuns (FEA), depois de iniciar sua experiência em um escritório contábil como estagiário, em 2016.
+            José Augusto Gonçalves Filho nasceu em 1991 e iniciou sua trajetória profissional em 2013, como técnico de informática. Em 2014, começou sua experiência na contabilidade como estagiário, formando-se em Contabilidade pela Faculdade de Anicuns (FEA) em 2017. Exerceu a profissão contábil até o fim de 2020.
           </p>
           <p>
-            Atuou na área contábil até 2024 e, nesse caminho, acompanhou de perto os desafios que muitas empresas enfrentam no controle financeiro, de compras, fiscal e operacional. Foi dessa vivência que nasceu a convicção de que os empresários precisam de sistemas simples, ágeis e construídos para a realidade de cada negócio.
+            Entre 2021 e agosto de 2023, atuou como secretário municipal de Finanças. De agosto de 2023 até o início de janeiro de 2024, trabalhou no setor bancário, especificamente na Cooperativa Sicoob Centro-Oeste BR. Em cada etapa, pediu seu desligamento para seguir novos caminhos profissionais.
           </p>
           <p>
-            Seu compromisso é ouvir, entender e transformar processos complexos em ferramentas claras para apoiar decisões melhores. A Business Control nasce para colocar essa experiência a serviço de empresas que querem sair do improviso e construir uma gestão mais segura, organizada e preparada para crescer.
+            Desde o período em que deixou a contabilidade, José já estudava a construção de sistemas para pequenas e médias empresas. Desde 2024, atua no desenvolvimento de soluções que facilitam a tomada de decisão, com foco em controle financeiro, compras, área fiscal e operação.
+          </p>
+          <p>
+            Seu compromisso é compreender a realidade de cada empresa e transformar processos complexos em ferramentas simples, ágeis e fáceis de usar. A Business Control nasce para ajudar empresários a sair do improviso, organizar sua gestão e tomar decisões com mais segurança.
           </p>
           <div className="bc-about-highlights">
             <span><strong>Desde 2013</strong> em tecnologia</span>
