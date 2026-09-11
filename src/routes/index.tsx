@@ -201,7 +201,7 @@ function BusinessControlLanding() {
       <footer className="bc-footer">
         <div className="bc-logo"><span className="bc-logo-mark"><span /></span><span>Business <strong>Control</strong></span></div>
         <p>Controle que se adapta à sua empresa.</p>
-        <div className="bc-footer-links"><a href="#diagnostico">Diagnóstico</a><a href="#seguranca">Privacidade</a><a href="#duvidas">Termos</a></div>
+        <div className="bc-footer-links"><a href="#diagnostico">Diagnóstico</a><a href="#sobre-jose">Sobre José</a><a href="#seguranca">Privacidade</a><a href="#duvidas">Termos</a></div>
       </footer>
     </main>
   );
