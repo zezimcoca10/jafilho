@@ -244,7 +244,7 @@ function QuizWizard({ onDiagnosis }: { onDiagnosis: (diagnosis: Diagnosis) => vo
 
 function QuizQuestion({ question, selected, onSelect, onBack, canGoBack }: {
   question: QuizQuestion;
-  selected?: string;
+  selected?: string | undefined;
   onSelect: (value: string) => void;
   onBack: () => void;
   canGoBack: boolean;
