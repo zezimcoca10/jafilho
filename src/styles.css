@@ -471,3 +471,38 @@ button { cursor: pointer; }
     border-left: 0;
   }
 }
+
+
+.bc-text-question {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.35rem;
+}
+
+.bc-text-question input {
+  width: 100%;
+  min-height: 3.4rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--bc-border);
+  border-radius: 0.8rem;
+  outline: none;
+  background: var(--bc-surface);
+  color: var(--bc-ink);
+  font: inherit;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.bc-text-question input::placeholder {
+  color: var(--bc-muted);
+  opacity: 0.72;
+}
+
+.bc-text-question input:focus {
+  border-color: var(--bc-accent);
+  box-shadow: 0 0 0 3px rgba(29, 117, 99, 0.12);
+}
+
+.bc-text-question .bc-button {
+  justify-content: center;
+  justify-self: start;
+}
