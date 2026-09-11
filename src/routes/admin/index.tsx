@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { quizQuestions } from "../../config/quiz";
 import {
   createAdminUser,
   deleteLead,
@@ -60,17 +61,47 @@ function answerEntries(lead: Record<string, unknown>) {
   return Object.entries(answers as Record<string, unknown>).filter(([, value]) => value !== null && value !== undefined && value !== "");
 }
 
+const answerQuestionLabels: Record<string, string> = {
+  main_challenge: "Maior desafio",
+  current_control: "Controle atual",
+  team_size: "Tamanho da equipe",
+  system_limit: "Limitação do sistema",
+  spreadsheet_pain: "Problema com planilhas",
+  urgency: "Urgência",
+  desired_control: "Resultado desejado",
+};
+
+const temperatureLabels: Record<string, string> = {
+  frio: "frio",
+  morno: "morno",
+  quente: "quente",
+  cold: "frio",
+  warm: "morno",
+  hot: "quente",
+};
+
 function humanizeAnswerKey(key: string) {
-  return key
+  return answerQuestionLabels[key] ?? key
     .replace(/[_-]+/g, " ")
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .replace(/^./, (letter) => letter.toUpperCase());
 }
 
-function formatAnswer(value: unknown) {
-  if (Array.isArray(value)) return value.map((item) => String(item)).join(", ");
+function translateAnswerValue(questionKey: string | undefined, value: unknown) {
+  const raw = String(value ?? "—");
+  const question = questionKey ? quizQuestions.find((item) => item.id === questionKey) : undefined;
+  return question?.answers?.find((answer) => answer.value === raw)?.label ?? raw;
+}
+
+function formatAnswer(value: unknown, questionKey?: string) {
+  if (Array.isArray(value)) return value.map((item) => translateAnswerValue(questionKey, item)).join(", ");
   if (typeof value === "object" && value !== null) return JSON.stringify(value);
-  return String(value ?? "—");
+  return translateAnswerValue(questionKey, value);
+}
+
+function translateTemperature(value: unknown) {
+  const raw = String(value ?? "—").toLowerCase();
+  return temperatureLabels[raw] ?? String(value ?? "—");
 }
 
 function buildWhatsAppMessage(lead: Record<string, unknown>) {
@@ -83,14 +114,14 @@ function buildWhatsAppMessage(lead: Record<string, unknown>) {
   ];
 
   if (lead["role"]) lines.push("Cargo: " + String(lead["role"]));
-  if (lead["lead_temperature"]) lines.push("Temperatura do lead: " + String(lead["lead_temperature"]));
+  if (lead["lead_temperature"]) lines.push("Temperatura do lead: " + translateTemperature(lead["lead_temperature"]));
   if (lead["lead_score"]) lines.push("Pontuação: " + String(lead["lead_score"]));
 
   const answers = answerEntries(lead);
   if (answers.length) {
     lines.push("", "Respostas do diagnóstico:");
     for (const [question, answer] of answers) {
-      lines.push("- " + humanizeAnswerKey(question) + ": " + formatAnswer(answer));
+      lines.push("- " + humanizeAnswerKey(question) + ": " + formatAnswer(answer, question));
     }
   }
 
@@ -181,7 +212,7 @@ function AdminDashboard() {
     );
   }, [users, userSearch]);
 
-  const hot = leads.filter((lead) => lead["lead_temperature"] === "quente").length;
+  const hot = leads.filter((lead) => translateTemperature(lead["lead_temperature"]) === "quente").length;
   const today = leads.filter((lead) => String(lead["created_at"] ?? "").slice(0, 10) === new Date().toISOString().slice(0, 10)).length;
   const pendingRequests = requests.filter((request) => request.status === "pending").length;
 
@@ -331,7 +362,7 @@ function AdminDashboard() {
                       <td>{String(lead["company_name"] ?? "—")}</td>
                       <td>{contactUrl ? <a className="bc-whatsapp-link" href={contactUrl} target="_blank" rel="noreferrer"><MessageCircle size={14} />{String(lead["phone"] ?? "—")}</a> : String(lead["phone"] ?? "—")}</td>
                       <td>{String(lead["lead_score"] ?? "—")}</td>
-                      <td><span className={"bc-status bc-status-" + String(lead["lead_temperature"] ?? "frio")}>{String(lead["lead_temperature"] ?? "—")}</span></td>
+                      <td><span className={"bc-status bc-status-" + translateTemperature(lead["lead_temperature"] ?? "frio")}>{String(lead["lead_temperature"] ?? "—")}</span></td>
                       <td>{String(lead["created_at"] ?? "—").slice(0, 10)}</td>
                       <td className="bc-table-actions">
                         {contactUrl && <a className="bc-icon-action bc-icon-action-whatsapp" title="Abrir conversa no WhatsApp" href={contactUrl} target="_blank" rel="noreferrer"><MessageCircle size={15} /></a>}
@@ -383,7 +414,7 @@ function LeadDetail({ lead, onClose }: { lead: Record<string, unknown>; onClose:
         </div>
         <div className="bc-answer-section">
           <div className="bc-detail-subheading"><h3>Respostas do questionário</h3><span>{answerEntries(lead).length} respostas</span></div>
-          {answerEntries(lead).length === 0 ? <p className="bc-empty-state">Este lead não possui respostas estruturadas.</p> : <div className="bc-answer-list">{answerEntries(lead).map(([question, answer]) => <div key={question} className="bc-answer-item"><span>{humanizeAnswerKey(question)}</span><strong>{formatAnswer(answer)}</strong></div>)}</div>}
+          {answerEntries(lead).length === 0 ? <p className="bc-empty-state">Este lead não possui respostas estruturadas.</p> : <div className="bc-answer-list">{answerEntries(lead).map(([question, answer]) => <div key={question} className="bc-answer-item"><span>{humanizeAnswerKey(question)}</span><strong>{formatAnswer(answer, question)}</strong></div>)}</div>}
         </div>
         <div className="bc-message-section">
           <div className="bc-detail-subheading"><h3>Mensagem pronta para o WhatsApp</h3><button className="bc-button bc-button-secondary" onClick={() => void copyMessage()}><Clipboard size={14} />{copied ? "Copiada" : "Copiar mensagem"}</button></div>
