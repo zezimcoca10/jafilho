@@ -32,6 +32,25 @@ export const quizQuestions: QuizQuestion[] = [
     ],
   },
   {
+    id: "uses_system",
+    title: "Sua empresa já utiliza algum sistema para controlar a operação?",
+    description: "Essa resposta ajuda a definir o melhor ponto de partida para o seu diagnóstico.",
+    type: "single",
+    answers: [
+      { label: "Sim, já utilizamos um sistema", value: "yes", score: 2, areas: ["processos"] },
+      { label: "Não, ainda não utilizamos", value: "no", score: 4, areas: ["centralização", "automação"] },
+    ],
+  },
+  {
+    id: "system_name",
+    title: "Qual é o nome do sistema utilizado hoje?",
+    description: "Digite o nome do sistema que sua empresa utiliza atualmente.",
+    type: "text",
+    placeholder: "Ex.: sistema financeiro, ERP ou nome da plataforma",
+    required: true,
+    showWhen: (answers) => answers["uses_system"] === "yes",
+  },
+  {
     id: "current_control",
     title: "Como sua equipe registra e acompanha a operação?",
     description: "Não existe resposta certa — queremos entender o ponto de partida.",
