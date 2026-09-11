@@ -60,7 +60,7 @@ export const quizQuestions: QuizQuestion[] = [
     title: "O que mais limita a forma atual de trabalhar?",
     description: "Essa pergunta aparece para quem já usa algum sistema.",
     type: "single",
-    showWhen: (answers) => answers.current_control === "system",
+    showWhen: (answers) => answers["current_control"] === "system",
     answers: [
       { label: "Não conversa com outras ferramentas", value: "integration", score: 3, areas: ["integrações"] },
       { label: "É complexo para a equipe", value: "complex", score: 3, areas: ["simplicidade"] },
@@ -73,7 +73,7 @@ export const quizQuestions: QuizQuestion[] = [
     title: "Quando a operação depende de planilhas, o que mais acontece?",
     description: "Essa pergunta aparece para quem usa controles manuais.",
     type: "single",
-    showWhen: (answers) => answers.current_control === "manual" || answers.current_control === "mixed",
+    showWhen: (answers) => answers["current_control"] === "manual" || answers["current_control"] === "mixed",
     answers: [
       { label: "Erros e versões diferentes", value: "errors", score: 4, areas: ["confiabilidade"] },
       { label: "Muito tempo digitando e conferindo", value: "time", score: 4, areas: ["automação"] },
