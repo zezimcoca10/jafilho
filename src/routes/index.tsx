@@ -170,6 +170,34 @@ function BusinessControlLanding() {
         <a className="bc-button bc-button-light" href="#diagnostico">Fazer meu diagnóstico <ArrowRight size={18} /></a>
       </section>
 
+      <section className="bc-section bc-about-section" id="sobre-jose">
+        <div className="bc-about-photo-wrap">
+          <img
+            className="bc-about-photo"
+            src="/images/jose-augusto-goncalves-filho.png"
+            alt="José Augusto Gonçalves Filho, fundador da Business Control"
+          />
+        </div>
+        <div className="bc-about-copy">
+          <div className="bc-kicker">Quem está por trás da Business Control</div>
+          <h2>Experiência prática para transformar controle em clareza.</h2>
+          <p>
+            José Augusto Gonçalves Filho nasceu em 1991 e iniciou sua trajetória profissional em 2013, como técnico de informática. Em 2017, concluiu sua formação em Contabilidade pela Faculdade de Anicuns (FEA), depois de iniciar sua experiência em um escritório contábil como estagiário, em 2016.
+          </p>
+          <p>
+            Atuou na área contábil até 2024 e, nesse caminho, acompanhou de perto os desafios que muitas empresas enfrentam no controle financeiro, de compras, fiscal e operacional. Foi dessa vivência que nasceu a convicção de que os empresários precisam de sistemas simples, ágeis e construídos para a realidade de cada negócio.
+          </p>
+          <p>
+            Seu compromisso é ouvir, entender e transformar processos complexos em ferramentas claras para apoiar decisões melhores. A Business Control nasce para colocar essa experiência a serviço de empresas que querem sair do improviso e construir uma gestão mais segura, organizada e preparada para crescer.
+          </p>
+          <div className="bc-about-highlights">
+            <span><strong>Desde 2013</strong> em tecnologia</span>
+            <span><strong>Formação em 2017</strong> em Contabilidade</span>
+            <span><strong>Experiência real</strong> em gestão e controle</span>
+          </div>
+        </div>
+      </section>
+
       <footer className="bc-footer">
         <div className="bc-logo"><span className="bc-logo-mark"><span /></span><span>Business <strong>Control</strong></span></div>
         <p>Controle que se adapta à sua empresa.</p>
