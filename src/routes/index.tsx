@@ -240,8 +240,6 @@ function BusinessControlLanding() {
         </div>
       </section>
 
-      </section>
-
       <footer className="bc-footer">
         <div className="bc-logo"><span className="bc-logo-mark"><span /></span><span>Business <strong>Control</strong></span></div>
         <p>Controle que se adapta à sua empresa.</p>
