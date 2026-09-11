@@ -32,13 +32,13 @@ export function calculateDiagnosis(answers: Record<string, string>): Diagnosis {
     .slice(0, 3);
 
   const temperature: LeadTemperature = score >= 21 ? "quente" : score >= 12 ? "morno" : "frio";
-  const digitalization = answers.current_control === "system"
+  const digitalization = answers["current_control"] === "system"
     ? "estruturada"
-    : answers.current_control === "mixed"
+    : answers["current_control"] === "mixed"
       ? "em evolução"
       : "inicial";
   const automation = score >= 18 ? "alta" : score >= 10 ? "média" : "baixa";
-  const priority = areaLabels[areas[0] ?? "clareza"];
+  const priority = areaLabels[areas[0] ?? "clareza"] ?? areaLabels.clareza;
   const solution = score >= 18
     ? "Sistema sob medida com automações e painel de indicadores"
     : "Diagnóstico operacional + sistema de controle modelado para sua empresa";
