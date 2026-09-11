@@ -17,8 +17,8 @@ type LeadResult =
   | { ok: true; id?: string }
   | { ok: false; code: "not_configured" | "failed"; message: string };
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ?? "";
-const publishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
+const supabaseUrl = import.meta.env["VITE_SUPABASE_URL"] ?? "";
+const publishableKey = import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ?? "";
 
 export function isSupabaseConfigured() {
   return Boolean(supabaseUrl && publishableKey);
@@ -55,11 +55,11 @@ export async function submitLead(payload: LeadPayload): Promise<LeadResult> {
         referrer: document.referrer || null,
         landing_page: window.location.href,
         consent_at: new Date().toISOString(),
-        utm_source: payload.attribution.utm_source || null,
-        utm_medium: payload.attribution.utm_medium || null,
-        utm_campaign: payload.attribution.utm_campaign || null,
-        utm_content: payload.attribution.utm_content || null,
-        utm_term: payload.attribution.utm_term || null,
+        utm_source: payload.attribution["utm_source"] || null,
+        utm_medium: payload.attribution["utm_medium"] || null,
+        utm_campaign: payload.attribution["utm_campaign"] || null,
+        utm_content: payload.attribution["utm_content"] || null,
+        utm_term: payload.attribution["utm_term"] || null,
       }),
     });
 
