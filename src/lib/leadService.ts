@@ -90,8 +90,19 @@ export type AdminSession = {
   user: { id: string; email?: string };
 };
 
-type AuthResponse = AdminSession & {
+type AuthResponse = {
+  access_token?: string;
+  refresh_token?: string;
   user?: { id: string; email?: string };
+};
+
+type AccessRequest = {
+  user_id: string;
+  email: string;
+  status: "pending" | "approved" | "revoked";
+  requested_at: string;
+  reviewed_at?: string | null;
+  reviewed_by?: string | null;
 };
 
 type AdminOperationResult =
@@ -131,6 +142,11 @@ async function hasAdminRecord(session: AdminSession) {
   return rows.length > 0;
 }
 
+export async function isMasterAdmin() {
+  const session = getAdminSession();
+  return session ? hasAdminRecord(session) : false;
+}
+
 async function claimMasterAdmin(session: AdminSession) {
   const response = await fetch(supabaseUrl + "/rest/v1/admin_users", {
     method: "POST",
@@ -144,9 +160,38 @@ async function claimMasterAdmin(session: AdminSession) {
   return response.ok;
 }
 
-async function ensureMasterAdmin(session: AdminSession) {
-  if (await hasAdminRecord(session)) return true;
-  return claimMasterAdmin(session);
+async function getOwnAccessRequest(session: AdminSession) {
+  const response = await fetch(
+    supabaseUrl + "/rest/v1/admin_access_requests?select=*&user_id=eq." + encodeURIComponent(session.user.id) + "&limit=1",
+    { headers: adminHeaders(session.access_token) },
+  );
+  if (!response.ok) return null;
+  const rows = (await response.json()) as AccessRequest[];
+  return rows[0] ?? null;
+}
+
+async function requestPlatformAccess(session: AdminSession) {
+  const response = await fetch(supabaseUrl + "/rest/v1/admin_access_requests", {
+    method: "POST",
+    headers: {
+      ...adminHeaders(session.access_token),
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({ user_id: session.user.id, email: session.user.email ?? "" }),
+  });
+  return response.ok || response.status === 409;
+}
+
+async function resolveAccess(session: AdminSession) {
+  if (await hasAdminRecord(session)) return "master" as const;
+
+  const ownRequest = await getOwnAccessRequest(session);
+  if (ownRequest?.status === "approved") return "approved" as const;
+  if (ownRequest?.status === "revoked") return "revoked" as const;
+
+  if (!ownRequest) await requestPlatformAccess(session);
+  return "pending" as const;
 }
 
 export async function createMasterAdmin(email: string, password: string): Promise<AdminOperationResult> {
@@ -165,7 +210,7 @@ export async function createMasterAdmin(email: string, password: string): Promis
       body: JSON.stringify({ email: email.trim().toLowerCase(), password }),
     });
 
-    const payload = (await response.json()) as Partial<AuthResponse> & { msg?: string; error_description?: string };
+    const payload = (await response.json()) as AuthResponse & { msg?: string; error_description?: string };
     if (!response.ok) {
       return {
         ok: false,
@@ -175,7 +220,7 @@ export async function createMasterAdmin(email: string, password: string): Promis
 
     if (payload.access_token && payload.refresh_token && payload.user?.id) {
       const session = payload as AdminSession;
-      if (!(await ensureMasterAdmin(session))) {
+      if (!(await claimMasterAdmin(session))) {
         return { ok: false, message: "A conta foi criada, mas não pôde ser definida como master." };
       }
       sessionStorage.setItem("bc_admin_session", JSON.stringify(session));
@@ -208,9 +253,20 @@ export async function signInAdmin(email: string, password: string): Promise<Admi
       return { ok: false, message: "E-mail ou senha inválidos." };
     }
 
-    const session = (await response.json()) as AdminSession;
-    if (!session.user?.id || !(await ensureMasterAdmin(session))) {
-      return { ok: false, message: "Este usuário não é o administrador master deste sistema." };
+    const payload = (await response.json()) as AuthResponse;
+    if (!payload.access_token || !payload.refresh_token || !payload.user?.id) {
+      return { ok: false, message: "A sessão de autenticação não foi criada." };
+    }
+
+    const session = payload as AdminSession;
+    if (await canCreateMasterAdmin()) await claimMasterAdmin(session);
+
+    const access = await resolveAccess(session);
+    if (access === "pending") {
+      return { ok: false, message: "Acesso pendente de aprovação pelo administrador master." };
+    }
+    if (access === "revoked") {
+      return { ok: false, message: "Este acesso foi revogado pelo administrador master." };
     }
 
     sessionStorage.setItem("bc_admin_session", JSON.stringify(session));
@@ -243,4 +299,43 @@ export async function fetchAdminLeads() {
   );
   if (!response.ok) return [];
   return (await response.json()) as Array<Record<string, unknown>>;
+}
+
+export async function deleteLead(leadId: string) {
+  const session = getAdminSession();
+  if (!session) return false;
+  const response = await fetch(
+    supabaseUrl + "/rest/v1/leads?id=eq." + encodeURIComponent(leadId),
+    { method: "DELETE", headers: adminHeaders(session.access_token) },
+  );
+  return response.ok;
+}
+
+export async function fetchAccessRequests() {
+  const session = getAdminSession();
+  if (!session) return [];
+  const response = await fetch(
+    supabaseUrl + "/rest/v1/admin_access_requests?select=*&order=requested_at.asc",
+    { headers: adminHeaders(session.access_token) },
+  );
+  if (!response.ok) return [];
+  return (await response.json()) as AccessRequest[];
+}
+
+export async function reviewAccessRequest(userId: string, status: "approved" | "revoked") {
+  const session = getAdminSession();
+  if (!session) return false;
+  const response = await fetch(
+    supabaseUrl + "/rest/v1/admin_access_requests?user_id=eq." + encodeURIComponent(userId),
+    {
+      method: "PATCH",
+      headers: {
+        ...adminHeaders(session.access_token),
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({ status, reviewed_at: new Date().toISOString(), reviewed_by: session.user.id }),
+    },
+  );
+  return response.ok;
 }
