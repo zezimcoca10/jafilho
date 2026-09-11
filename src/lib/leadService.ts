@@ -339,3 +339,67 @@ export async function reviewAccessRequest(userId: string, status: "approved" | "
   );
   return response.ok;
 }
+
+
+export type ManagedAdminStatus = "master" | "approved" | "pending" | "revoked" | "none";
+
+export type ManagedAdminUser = {
+  user_id: string;
+  email: string;
+  name: string;
+  status: ManagedAdminStatus;
+  created_at: string;
+  last_sign_in_at?: string | null;
+  requested_at?: string | null;
+  reviewed_at?: string | null;
+};
+
+type AdminUserFunctionResult = {
+  ok: boolean;
+  message?: string;
+  users?: ManagedAdminUser[];
+};
+
+const adminUserFunctionUrl = supabaseUrl + "/functions/v1/admin-user-management";
+
+async function callAdminUserFunction(payload: Record<string, unknown>): Promise<AdminUserFunctionResult> {
+  const session = getAdminSession();
+  if (!session) return { ok: false, message: "Sessão administrativa expirada." };
+
+  try {
+    const response = await fetch(adminUserFunctionUrl, {
+      method: "POST",
+      headers: {
+        ...adminHeaders(session.access_token),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const result = (await response.json()) as AdminUserFunctionResult;
+    if (!response.ok) return { ok: false, message: result.message || (result as { error?: string }).error || "Não foi possível concluir a ação." };
+    return { ok: true, ...result };
+  } catch {
+    return { ok: false, message: "Não foi possível conectar ao gerenciamento de usuários." };
+  }
+}
+
+export async function fetchAdminUsers() {
+  const result = await callAdminUserFunction({ action: "list" });
+  return result.ok ? result.users ?? [] : [];
+}
+
+export async function createAdminUser(input: { name: string; email: string; password: string }) {
+  return callAdminUserFunction({ action: "create", ...input });
+}
+
+export async function updateAdminUser(input: { user_id: string; name?: string; email?: string; password?: string }) {
+  return callAdminUserFunction({ action: "update", ...input });
+}
+
+export async function setAdminUserStatus(userId: string, status: "approved" | "revoked") {
+  return callAdminUserFunction({ action: status === "approved" ? "approve" : "revoke", user_id: userId });
+}
+
+export async function removeAdminUser(userId: string) {
+  return callAdminUserFunction({ action: "remove", user_id: userId });
+}
