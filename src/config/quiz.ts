@@ -58,7 +58,7 @@ export const quizQuestions: QuizQuestion[] = [
     answers: [
       { label: "Principalmente planilhas e papel", value: "manual", score: 4, areas: ["automação", "centralização"] },
       { label: "Planilhas + ferramentas separadas", value: "mixed", score: 3, areas: ["integrações", "centralização"] },
-      { label: "Já usamos um sistema", value: "system", score: 2, areas: ["processos"] },
+      { label: "Um sistema concentra a maior parte do controle", value: "system", score: 2, areas: ["processos"] },
       { label: "Cada pessoa controla de um jeito", value: "people", score: 4, areas: ["processos", "centralização"] },
     ],
   },
