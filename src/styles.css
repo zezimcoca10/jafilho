@@ -225,3 +225,17 @@ button { cursor: pointer; }
 .bc-admin-create-account { margin-top: 12px; width: 100%; }
 .bc-admin-switch { background: transparent; border: 0; color: var(--bc-green); display: block; font-size: 12px; font-weight: 750; margin: 14px auto 0; padding: 0; }
 .bc-admin-switch:hover { color: var(--bc-green-dark); text-decoration: underline; }
+
+.bc-admin-management { margin: 34px 0 28px; }
+.bc-management-heading { align-items: end; display: flex; justify-content: space-between; gap: 20px; margin-bottom: 15px; }
+.bc-management-heading h2 { font-size: 25px; letter-spacing: -.04em; margin: 8px 0 0; }
+.bc-management-note { color: var(--bc-muted); font-size: 11px; }
+.bc-table-actions { display: flex; gap: 7px; }
+.bc-icon-action { align-items: center; border: 0; border-radius: 7px; display: inline-flex; height: 30px; justify-content: center; width: 30px; }
+.bc-icon-action-approve { background: #e2f1e6; color: #26734c; }
+.bc-icon-action-revoke, .bc-icon-action-delete { background: #fff0ed; color: #aa5044; }
+.bc-access-status { border-radius: 999px; display: inline-block; font-size: 10px; font-weight: 800; padding: 5px 8px; }
+.bc-access-pending { background: #fff2ce; color: #8b6722; }
+.bc-access-approved { background: #e2f1e6; color: #26734c; }
+.bc-access-revoked { background: #ffe5df; color: #a44839; }
+@media (max-width: 560px) { .bc-management-heading { align-items: flex-start; flex-direction: column; gap: 5px; } }
