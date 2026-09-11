@@ -362,7 +362,7 @@ function AdminDashboard() {
                       <td>{String(lead["company_name"] ?? "—")}</td>
                       <td>{contactUrl ? <a className="bc-whatsapp-link" href={contactUrl} target="_blank" rel="noreferrer"><MessageCircle size={14} />{String(lead["phone"] ?? "—")}</a> : String(lead["phone"] ?? "—")}</td>
                       <td>{String(lead["lead_score"] ?? "—")}</td>
-                      <td><span className={"bc-status bc-status-" + translateTemperature(lead["lead_temperature"] ?? "frio")}>{String(lead["lead_temperature"] ?? "—")}</span></td>
+                      <td><span className={"bc-status bc-status-" + translateTemperature(lead["lead_temperature"] ?? "frio")}>{translateTemperature(lead["lead_temperature"] ?? "—")}</span></td>
                       <td>{String(lead["created_at"] ?? "—").slice(0, 10)}</td>
                       <td className="bc-table-actions">
                         {contactUrl && <a className="bc-icon-action bc-icon-action-whatsapp" title="Abrir conversa no WhatsApp" href={contactUrl} target="_blank" rel="noreferrer"><MessageCircle size={15} /></a>}
@@ -409,7 +409,7 @@ function LeadDetail({ lead, onClose }: { lead: Record<string, unknown>; onClose:
           <div><span>E-mail</span><a href={"mailto:" + String(lead["email"] ?? "")}><Mail size={14} />{String(lead["email"] ?? "—")}</a></div>
           <div><span>WhatsApp</span>{contactUrl ? <a href={contactUrl} target="_blank" rel="noreferrer"><MessageCircle size={14} />{String(lead["phone"] ?? "—")}</a> : <strong>—</strong>}</div>
           <div><span>Cargo</span><strong>{String(lead["role"] ?? "—")}</strong></div>
-          <div><span>Temperatura</span><strong>{String(lead["lead_temperature"] ?? "—")}</strong></div>
+          <div><span>Temperatura</span><strong>{translateTemperature(lead["lead_temperature"] ?? "—")}</strong></div>
           <div><span>Score</span><strong>{String(lead["lead_score"] ?? "—")}</strong></div>
         </div>
         <div className="bc-answer-section">
