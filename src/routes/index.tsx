@@ -223,21 +223,28 @@ function QuizWizard({ onDiagnosis }: { onDiagnosis: (diagnosis: Diagnosis) => vo
   function selectAnswer(value: string) {
     if (!question) return;
     const next = { ...answers, [question.id]: value };
+    const nextQuestions = getVisibleQuestions(next);
+    const currentIndex = nextQuestions.findIndex((item) => item.id === question.id);
+    const finishesEarly = question.id === "uses_system" && value === "no";
     setAnswers(next);
     track("quiz_step_completed", { question: question.id });
-    if (index >= questions.length - 1) {
+
+    if (finishesEarly || currentIndex === nextQuestions.length - 1) {
       setDiagnosis(calculateDiagnosis(next));
       setShowCapture(true);
       track("lead_form_viewed");
     } else {
-      setIndex((value) => value + 1);
+      setIndex(currentIndex + 1);
     }
   }
 
   function goBack() {
     if (showCapture) {
       setShowCapture(false);
-      setIndex(Math.max(0, questions.length - 1));
+      const resumeIndex = answers["uses_system"] === "no"
+        ? questions.findIndex((item) => item.id === "uses_system")
+        : questions.length - 1;
+      setIndex(Math.max(0, resumeIndex));
       return;
     }
     setIndex((value) => Math.max(0, value - 1));
@@ -280,19 +287,44 @@ function QuizQuestion({ question, selected, onSelect, onBack, canGoBack }: {
   onBack: () => void;
   canGoBack: boolean;
 }) {
+  const [textValue, setTextValue] = useState(selected ?? "");
+  const isTextQuestion = question.type === "text";
+
+  function submitTextAnswer() {
+    const value = textValue.trim();
+    if (question.required && !value) return;
+    onSelect(value);
+  }
+
   return (
     <div className="bc-question">
       <div className="bc-question-icon"><ClipboardCheck size={20} /></div>
       <h2>{question.title}</h2>
       <p>{question.description}</p>
-      <div className="bc-option-list">
-        {question.answers?.map((answer) => (
-          <button key={answer.value} className={selected === answer.value ? "bc-option is-selected" : "bc-option"} onClick={() => onSelect(answer.value)}>
-            <span>{answer.label}</span><ChevronRight size={17} />
+      {isTextQuestion ? (
+        <div className="bc-text-question">
+          <input
+            value={textValue}
+            onChange={(event) => setTextValue(event.target.value)}
+            placeholder={question.placeholder}
+            aria-label={question.title}
+            required={question.required}
+            autoFocus
+          />
+          <button className="bc-button bc-button-primary" onClick={submitTextAnswer}>
+            Continuar <ChevronRight size={17} />
           </button>
-        ))}
-      </div>
-      <div className="bc-quiz-footer"><button className="bc-back-button" onClick={onBack} disabled={!canGoBack}><ChevronLeft size={16} /> Voltar</button><span>Uma pergunta por vez</span></div>
+        </div>
+      ) : (
+        <div className="bc-option-list">
+          {question.answers?.map((answer) => (
+            <button key={answer.value} className={selected === answer.value ? "bc-option is-selected" : "bc-option"} onClick={() => onSelect(answer.value)}>
+              <span>{answer.label}</span><ChevronRight size={17} />
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="bc-quiz-footer"><button className="bc-back-button" onClick={onBack} disabled={!canGoBack}><ChevronLeft size={16} /> Voltar</button><span>{isTextQuestion ? "Uma resposta curta é suficiente" : "Uma pergunta por vez"}</span></div>
     </div>
   );
 }
