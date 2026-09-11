@@ -17,8 +17,8 @@ type LeadResult =
   | { ok: true; id?: string }
   | { ok: false; code: "not_configured" | "failed"; message: string };
 
-const supabaseUrl = import.meta.env["VITE_SUPABASE_URL"] ?? "";
-const publishableKey = import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ?? "";
+const supabaseUrl = import.meta.env["VITE_SUPABASE_URL"] ?? "https://bqyalzeslhghfghacsqa.supabase.co";
+const publishableKey = import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ?? "sb_publishable_g2GKrSGGsHsSVy_f80cVWg_ugE2CCQE";
 
 export function isSupabaseConfigured() {
   return Boolean(supabaseUrl && publishableKey);
