@@ -38,7 +38,7 @@ export function calculateDiagnosis(answers: Record<string, string>): Diagnosis {
       ? "em evolução"
       : "inicial";
   const automation = score >= 18 ? "alta" : score >= 10 ? "média" : "baixa";
-  const priority = areaLabels[areas[0] ?? "clareza"] ?? areaLabels.clareza;
+  const priority = areaLabels[areas[0] ?? "clareza"] ?? "Clareza sobre a operação";
   const solution = score >= 18
     ? "Sistema sob medida com automações e painel de indicadores"
     : "Diagnóstico operacional + sistema de controle modelado para sua empresa";
