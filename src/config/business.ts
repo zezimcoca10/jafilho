@@ -3,7 +3,7 @@ export const businessConfig = {
   eyebrow: "SISTEMAS SOB MEDIDA PARA EMPRESAS BRASILEIRAS",
   segment: "MEI, pequenas e médias empresas",
   region: "Brasil",
-  whatsappNumber: import.meta.env["VITE_WHATSAPP_NUMBER"] ?? "",
+  whatsappNumber: import.meta.env["VITE_WHATSAPP_NUMBER"] ?? "62991478891",
   headline: "Sua empresa cresceu. Seu controle também precisa evoluir.",
   subheadline:
     "Mapeamos sua operação e desenvolvemos um sistema exclusivo para substituir planilhas, reduzir retrabalho e dar clareza para as decisões do dia a dia.",
