@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, ExternalLink, LogOut, Search, ShieldCheck, Trash2, UserRoundX, X } from "lucide-react";
+import { Check, ExternalLink, LogOut, Search, ShieldCheck, Trash2, UserRoundX } from "lucide-react";
 import {
   deleteLead,
   fetchAccessRequests,
